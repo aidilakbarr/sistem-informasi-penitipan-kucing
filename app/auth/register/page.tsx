@@ -204,7 +204,7 @@ export default function RegisterPage() {
         <p className="mt-8 text-xs text-stone-400 text-center max-w-sm">
           Sudah punya akun?{" "}
           <Link
-            href="auth/login"
+            href="/login"
             className="text-amber-600 hover:underline font-semibold"
           >
             Masuk sekarang

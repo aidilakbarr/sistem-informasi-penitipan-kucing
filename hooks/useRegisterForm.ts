@@ -105,7 +105,7 @@ export function useRegisterForm() {
       await new Promise((resolve) => setTimeout(resolve, 1800));
 
       setSuccess(true);
-      setTimeout(() => router.push("/auth/login"), 2500);
+      setTimeout(() => router.push("/login"), 2500);
     } catch {
       setErrors({
         general: "Pendaftaran gagal. Email mungkin sudah terdaftar.",

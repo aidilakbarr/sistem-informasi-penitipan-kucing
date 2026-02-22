@@ -338,7 +338,7 @@ export function RegisterForm() {
       <p className="text-center text-sm text-stone-500">
         Sudah punya akun?{" "}
         <Link
-          href="/auth/login"
+          href="/login"
           className="text-amber-600 hover:text-amber-700 font-semibold transition-colors"
         >
           Masuk di sini

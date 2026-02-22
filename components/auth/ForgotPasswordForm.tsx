@@ -80,7 +80,7 @@ function StepEmail() {
       <p className="text-center text-sm text-stone-500">
         Ingat password?{" "}
         <Link
-          href="/auth/login"
+          href="/login"
           className="text-amber-600 hover:text-amber-700 font-semibold"
         >
           Masuk di sini

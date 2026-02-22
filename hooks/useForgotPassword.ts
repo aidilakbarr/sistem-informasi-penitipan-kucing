@@ -166,7 +166,7 @@ export function useForgotPassword() {
       // TODO: await resetPassword(email, otp.join(""), password)
       await new Promise((r) => setTimeout(r, 1500));
       setStep("success");
-      setTimeout(() => router.push("/auth/login"), 3000);
+      setTimeout(() => router.push("/login"), 3000);
     } catch {
       setErrors({ general: "Gagal mereset password. Coba lagi." });
     } finally {
