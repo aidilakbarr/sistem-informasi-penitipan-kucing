@@ -24,7 +24,7 @@ export function FaqAccordionItem({ item, index }: FaqAccordionItemProps) {
       >
         <span>{item.q}</span>
         <span
-          className={`ml-4 flex-shrink-0 text-amber-500 text-xl transition-transform duration-200 ${
+          className={`ml-4 shrink-0 text-amber-500 text-xl transition-transform duration-200 ${
             open ? "rotate-45" : ""
           }`}
           aria-hidden="true"
