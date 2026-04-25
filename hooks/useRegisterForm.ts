@@ -1,119 +1,93 @@
 "use client";
 
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { RegisterFormData, RegisterFormErrors } from "@/types/register";
-
-const INITIAL_FORM: RegisterFormData = {
-  nama: "",
-  email: "",
-  telepon: "",
-  password: "",
-  konfirmasi_password: "",
-  agree: false,
-};
-
-export type PasswordStrength = "weak" | "medium" | "strong" | null;
-
-function getPasswordStrength(password: string): PasswordStrength {
-  if (!password) return null;
-  let score = 0;
-  if (password.length >= 8) score++;
-  if (/[A-Z]/.test(password)) score++;
-  if (/[0-9]/.test(password)) score++;
-  if (/[^A-Za-z0-9]/.test(password)) score++;
-  if (score <= 1) return "weak";
-  if (score <= 2) return "medium";
-  return "strong";
-}
+import { register } from "@/services/api/auth.service";
+import { registerSchema } from "@/lib/validations/register.schema";
 
 export function useRegisterForm() {
   const router = useRouter();
-  const [form, setForm] = useState<RegisterFormData>(INITIAL_FORM);
-  const [errors, setErrors] = useState<RegisterFormErrors>({});
+
+  const [form, setForm] = useState({
+    nama: "",
+    email: "",
+    telepon: "",
+    password: "",
+    konfirmasi_password: "",
+    agree: false,
+  });
+
+  const [errors, setErrors] = useState<any>({});
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showKonfirmasi, setShowKonfirmasi] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const passwordStrength = getPasswordStrength(form.password);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showKonfirmasi, setShowKonfirmasi] = useState(false);
 
-  function validate(): boolean {
-    const newErrors: RegisterFormErrors = {};
+  const passwordStrength = form.password.length >= 8 ? "strong" : "weak";
 
-    if (!form.nama.trim()) {
-      newErrors.nama = "Nama lengkap wajib diisi.";
-    } else if (form.nama.trim().length < 3) {
-      newErrors.nama = "Nama minimal 3 karakter.";
-    }
-
-    if (!form.email) {
-      newErrors.email = "Email wajib diisi.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      newErrors.email = "Format email tidak valid.";
-    }
-
-    if (!form.telepon) {
-      newErrors.telepon = "Nomor telepon wajib diisi.";
-    } else if (
-      !/^(\+62|62|0)8[1-9][0-9]{6,10}$/.test(form.telepon.replace(/\s/g, ""))
-    ) {
-      newErrors.telepon = "Format nomor HP tidak valid (contoh: 08123456789).";
-    }
-
-    if (!form.password) {
-      newErrors.password = "Password wajib diisi.";
-    } else if (form.password.length < 8) {
-      newErrors.password = "Password minimal 8 karakter.";
-    }
-
-    if (!form.konfirmasi_password) {
-      newErrors.konfirmasi_password = "Konfirmasi password wajib diisi.";
-    } else if (form.password !== form.konfirmasi_password) {
-      newErrors.konfirmasi_password = "Password tidak cocok.";
-    }
-
-    if (!form.agree) {
-      newErrors.agree = "Anda harus menyetujui syarat & ketentuan.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  }
-
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
+
     setForm((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    if (errors[name as keyof RegisterFormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  }
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    setErrors((prev: any) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+
+    // 🔥 VALIDASI ZOD
+    const result = registerSchema.safeParse(form);
+
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+
+      setErrors({
+        nama: fieldErrors.nama?.[0],
+        email: fieldErrors.email?.[0],
+        telepon: fieldErrors.telepon?.[0],
+        password: fieldErrors.password?.[0],
+        konfirmasi_password: fieldErrors.konfirmasi_password?.[0],
+        agree: fieldErrors.agree?.[0],
+      });
+
+      return;
+    }
 
     setLoading(true);
     setErrors({});
 
     try {
-      // TODO: Replace with actual API call
-      // await registerUser({ nama: form.nama, email: form.email, telepon: form.telepon, password: form.password });
-      await new Promise((resolve) => setTimeout(resolve, 1800));
+      await register({
+        name: form.nama.trim(),
+        email: form.email.toLowerCase(),
+        password: form.password,
+        confirmPassword: form.konfirmasi_password,
+        telepon: form.telepon,
+      });
 
       setSuccess(true);
-      setTimeout(() => router.push("/login"), 2500);
-    } catch {
-      setErrors({
-        general: "Pendaftaran gagal. Email mungkin sudah terdaftar.",
-      });
+
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+    } catch (err: any) {
+      if (err.errors) {
+        setErrors(err.errors);
+      } else {
+        setErrors({ general: err.message });
+      }
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return {
     form,

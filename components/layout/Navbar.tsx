@@ -4,15 +4,33 @@ import { useState } from "react";
 import { PawIcon, MenuIcon, CloseIcon } from "@/components/ui/Icons";
 import { NAV_LINKS } from "@/lib/constants";
 import { useScrolled } from "@/hooks/useScrolled";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/auth";
+import { getDashboardByRole } from "@/lib/auth";
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const scrolled = useScrolled();
 
+  const router = useRouter();
+
+  const accessToken = useAuthStore((s) => s.accessToken);
+  const role = useAuthStore((s) => s.user?.role);
+
+  const handleTitip = () => {
+    if (!accessToken) {
+      router.push("/auth/login");
+    }
+
+    router.push(getDashboardByRole(role));
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-amber-50/95 backdrop-blur-md shadow-sm" : "bg-transparent"
+        scrolled
+          ? "bg-amber-50/95 backdrop-blur-md shadow-sm"
+          : "bg-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -22,7 +40,7 @@ export function Navbar() {
             <PawIcon className="w-5 h-5 text-white" />
           </div>
           <span className="font-black text-xl text-stone-800 tracking-tight">
-            Kucing<span className="text-amber-500">Ku</span>
+            AnZ <span className="text-amber-500">Pet Care</span>
           </span>
         </a>
 
@@ -39,12 +57,12 @@ export function Navbar() {
           ))}
         </div>
 
-        <a
-          href="#pesan"
+        <button
           className="hidden md:inline-flex px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-sm rounded-full transition-colors shadow-sm"
+          onClick={handleTitip}
         >
           Titipkan Sekarang
-        </a>
+        </button>
 
         {/* Mobile toggle */}
         <button

@@ -15,12 +15,17 @@ function formatTime(dt: string) {
 }
 
 function formatTimeFull(dt: string) {
-  return new Date(dt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+  return new Date(dt).toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 export function AdminChatPage() {
   const [rooms] = useState<ChatRoom[]>(MOCK_CHAT_ROOMS);
-  const [activeRoom, setActiveRoom] = useState<ChatRoom | null>(MOCK_CHAT_ROOMS[0]);
+  const [activeRoom, setActiveRoom] = useState<ChatRoom | null>(
+    MOCK_CHAT_ROOMS[0],
+  );
   const [messages, setMessages] = useState<ChatMessage[]>(MOCK_CHAT_MESSAGES);
   const [input, setInput] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -38,7 +43,7 @@ export function AdminChatPage() {
       id: `m${Date.now()}`,
       roomId: activeRoom.id,
       senderId: "u1",
-      senderName: "Admin KucingKu",
+      senderName: "Admin AnZ Pet Care",
       senderRole: "ADMIN",
       message: input.trim(),
       sentAt: new Date().toISOString(),
@@ -50,7 +55,10 @@ export function AdminChatPage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <PageHeader title="Chat Admin" subtitle="Kelola semua percakapan dengan customer" />
+      <PageHeader
+        title="Chat Admin"
+        subtitle="Kelola semua percakapan dengan customer"
+      />
 
       <div className="flex bg-white rounded-2xl border border-stone-100 overflow-hidden h-[calc(100vh-11rem)]">
         {/* Room List */}
@@ -67,7 +75,9 @@ export function AdminChatPage() {
                 key={room.id}
                 onClick={() => setActiveRoom(room)}
                 className={`w-full flex items-start gap-3 px-4 py-3.5 text-left transition-colors border-b border-stone-50 ${
-                  activeRoom?.id === room.id ? "bg-amber-50" : "hover:bg-stone-50"
+                  activeRoom?.id === room.id
+                    ? "bg-amber-50"
+                    : "hover:bg-stone-50"
                 }`}
               >
                 <div className="relative flex-shrink-0">
@@ -80,14 +90,20 @@ export function AdminChatPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex justify-between items-center mb-0.5">
-                    <span className={`text-sm font-semibold truncate ${room.unreadCount > 0 ? "text-stone-900" : "text-stone-700"}`}>
+                    <span
+                      className={`text-sm font-semibold truncate ${room.unreadCount > 0 ? "text-stone-900" : "text-stone-700"}`}
+                    >
                       {room.customerName}
                     </span>
                     {room.lastMessageAt && (
-                      <span className="text-[10px] text-stone-400 flex-shrink-0 ml-1">{formatTime(room.lastMessageAt)}</span>
+                      <span className="text-[10px] text-stone-400 flex-shrink-0 ml-1">
+                        {formatTime(room.lastMessageAt)}
+                      </span>
                     )}
                   </div>
-                  <p className={`text-xs truncate ${room.unreadCount > 0 ? "text-stone-700 font-medium" : "text-stone-400"}`}>
+                  <p
+                    className={`text-xs truncate ${room.unreadCount > 0 ? "text-stone-700 font-medium" : "text-stone-400"}`}
+                  >
                     {room.lastMessage ?? "Belum ada pesan"}
                   </p>
                 </div>
@@ -103,7 +119,9 @@ export function AdminChatPage() {
             </div>
             <div className="flex justify-between text-xs mt-1">
               <span className="text-stone-500">Belum dibalas</span>
-              <span className="font-bold text-amber-600">{rooms.filter((r) => r.unreadCount > 0).length}</span>
+              <span className="font-bold text-amber-600">
+                {rooms.filter((r) => r.unreadCount > 0).length}
+              </span>
             </div>
           </div>
         </aside>
@@ -116,9 +134,12 @@ export function AdminChatPage() {
               <div className="flex items-center gap-3">
                 <Avatar name={activeRoom.customerName} />
                 <div>
-                  <p className="font-bold text-stone-900 text-sm">{activeRoom.customerName}</p>
+                  <p className="font-bold text-stone-900 text-sm">
+                    {activeRoom.customerName}
+                  </p>
                   <p className="text-xs text-green-500 font-medium flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />Online
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                    Online
                   </p>
                 </div>
               </div>
@@ -145,16 +166,25 @@ export function AdminChatPage() {
                 roomMessages.map((msg) => {
                   const isAdmin = msg.senderRole === "ADMIN";
                   return (
-                    <div key={msg.id} className={`flex ${isAdmin ? "justify-end" : "justify-start"}`}>
-                      <div className={`max-w-[70%] flex flex-col gap-1 ${isAdmin ? "items-end" : "items-start"}`}>
+                    <div
+                      key={msg.id}
+                      className={`flex ${isAdmin ? "justify-end" : "justify-start"}`}
+                    >
+                      <div
+                        className={`max-w-[70%] flex flex-col gap-1 ${isAdmin ? "items-end" : "items-start"}`}
+                      >
                         {!isAdmin && (
-                          <span className="text-[10px] text-stone-400 font-medium px-1">{msg.senderName}</span>
+                          <span className="text-[10px] text-stone-400 font-medium px-1">
+                            {msg.senderName}
+                          </span>
                         )}
-                        <div className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                          isAdmin
-                            ? "bg-amber-500 text-white rounded-tr-sm"
-                            : "bg-white text-stone-800 border border-stone-100 shadow-sm rounded-tl-sm"
-                        }`}>
+                        <div
+                          className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                            isAdmin
+                              ? "bg-amber-500 text-white rounded-tr-sm"
+                              : "bg-white text-stone-800 border border-stone-100 shadow-sm rounded-tl-sm"
+                          }`}
+                        >
                           {msg.message}
                         </div>
                         <span className="text-[10px] text-stone-400 px-1">
@@ -170,8 +200,16 @@ export function AdminChatPage() {
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSend} className="px-4 py-3 border-t border-stone-100 flex gap-3 items-center bg-white">
-              <button type="button" className="text-stone-400 hover:text-stone-600 text-xl flex-shrink-0">📎</button>
+            <form
+              onSubmit={handleSend}
+              className="px-4 py-3 border-t border-stone-100 flex gap-3 items-center bg-white"
+            >
+              <button
+                type="button"
+                className="text-stone-400 hover:text-stone-600 text-xl flex-shrink-0"
+              >
+                📎
+              </button>
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}

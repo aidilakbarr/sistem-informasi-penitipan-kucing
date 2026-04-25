@@ -1,6 +1,7 @@
 import { PawIcon } from "@/components/ui/Icons";
 import { STATS } from "@/lib/constants";
-
+import { CheckCircle2, Camera, ShieldCheck, Clock } from "lucide-react";
+import Image from "next/image";
 const DECO_PAWS = [
   { top: "15%", left: "5%", size: 32, opacity: 0.08, rotate: -15 },
   { top: "70%", left: "8%", size: 24, opacity: 0.06, rotate: 20 },
@@ -38,7 +39,8 @@ export function HeroSection() {
         {/* Content */}
         <div>
           <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-            <span>🐾</span> Penitipan Kucing Terpercaya #1 di Kota
+            <PawIcon className="w-4 h-4" /> {/* Ganti emoji tapak kaki */}
+            <span>Penitipan Kucing Terpercaya di Kolaka</span>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-black text-stone-900 leading-tight mb-6">
@@ -49,25 +51,25 @@ export function HeroSection() {
             </span>
             <br />
             dengan Aman &<br />
-            Penuh Kasih 🐱
+            Penuh Kasih
           </h1>
 
           <p className="text-stone-600 text-lg leading-relaxed mb-8 max-w-md">
-            Kami merawat kucing kesayangan Anda layaknya anggota keluarga
-            sendiri — dengan fasilitas bersih, staf berpengalaman, dan update
-            real-time setiap hari.
+            Kami merawat kucing kesayangan Anda layaknya keluarga sendiri —
+            dengan fasilitas bersih, staf berpengalaman, dan pantauan kondisi
+            kucing secara berkala.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-10">
             <a
               href="#pesan"
-              className="px-7 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-base rounded-full transition-all shadow-lg shadow-amber-200 hover:shadow-xl hover:-translate-y-0.5"
+              className="px-7 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-base rounded-full transition-all shadow-lg shadow-amber-200 hover:shadow-xl hover:-translate-y-0.5 text-center"
             >
               Pesan Sekarang
             </a>
             <a
               href="#layanan"
-              className="px-7 py-3.5 bg-white hover:bg-stone-50 text-stone-700 font-bold text-base rounded-full transition-all border border-stone-200 hover:border-stone-300"
+              className="px-7 py-3.5 bg-white hover:bg-stone-50 text-stone-700 font-bold text-base rounded-full transition-all border border-stone-200 hover:border-stone-300 text-center"
             >
               Lihat Layanan
             </a>
@@ -80,7 +82,7 @@ export function HeroSection() {
                 <div className="text-2xl font-black text-stone-900">
                   {s.val}
                 </div>
-                <div className="text-xs text-stone-500 font-medium">
+                <div className="text-xs text-stone-500 font-medium uppercase tracking-wider">
                   {s.label}
                 </div>
               </div>
@@ -91,42 +93,54 @@ export function HeroSection() {
         {/* Illustration */}
         <div className="relative flex justify-center">
           <div className="relative">
-            <div className="w-72 h-80 bg-linear-to-br from-amber-300 to-orange-400 rounded-[2.5rem] flex items-end justify-center overflow-hidden shadow-2xl shadow-amber-200">
-              <div className="text-[180px] leading-none select-none -mb-2.5">
-                🐱
-              </div>
+            {/* Box Utama: Ganti Emoji Kucing Besar dengan Icon atau Image */}
+            <div className="relative w-72 h-80 bg-linear-to-br from-amber-300 to-orange-400 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-amber-200">
+              <Image
+                src="/assets/images/anz-pet-care.jpeg"
+                alt="Hero Image"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
 
-            {/* Floating badges */}
-            <div className="absolute -top-6 -left-10 bg-white rounded-2xl shadow-lg p-3 flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-green-100 rounded-xl flex items-center justify-center text-lg">
-                ✅
+            {/* Floating badges - Vaksin */}
+            <div className="absolute -top-6 -left-10 bg-white rounded-2xl shadow-xl p-3 flex items-center gap-2.5 border border-stone-100">
+              <div className="w-9 h-9 bg-green-100 rounded-xl flex items-center justify-center text-green-600">
+                <ShieldCheck className="w-5 h-5" /> {/* Ganti emoji centang */}
               </div>
               <div>
                 <div className="text-xs font-bold text-stone-800">
                   Vaksin Verified
                 </div>
-                <div className="text-[10px] text-stone-500">
+                <div className="text-[10px] text-stone-500 leading-none">
                   Aman & terpercaya
                 </div>
               </div>
             </div>
 
-            <div className="absolute -bottom-5 -right-8 bg-white rounded-2xl shadow-lg p-3 flex items-center gap-2.5">
-              <div className="text-xl">📸</div>
+            {/* Floating badges - Update Harian */}
+            <div className="absolute -bottom-5 -right-8 bg-white rounded-2xl shadow-xl p-3 flex items-center gap-2.5 border border-stone-100">
+              <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500">
+                <Camera className="w-5 h-5" /> {/* Ganti emoji kamera */}
+              </div>
               <div>
                 <div className="text-xs font-bold text-stone-800">
                   Update Harian
                 </div>
-                <div className="text-[10px] text-stone-500">
-                  Foto & video kucing
+                <div className="text-[10px] text-stone-500 leading-none">
+                  Foto & video harian
                 </div>
               </div>
             </div>
 
-            <div className="absolute top-1/2 -right-14 bg-amber-500 rounded-2xl shadow-lg p-3 text-white">
-              <div className="text-xs font-bold">24/7</div>
-              <div className="text-[10px] opacity-80">Pemantauan</div>
+            {/* Floating badges - 24/7 */}
+            <div className="absolute top-1/2 -right-14 bg-amber-500 rounded-2xl shadow-lg p-3 text-white flex items-center gap-2">
+              <Clock className="w-4 h-4" /> {/* Ganti teks manual ke ikon */}
+              <div>
+                <div className="text-xs font-bold leading-none">24/7</div>
+                <div className="text-[10px] opacity-90">Monitoring</div>
+              </div>
             </div>
           </div>
         </div>

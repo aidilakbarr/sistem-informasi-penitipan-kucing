@@ -1,8 +1,38 @@
 import { PawIcon } from "@/components/ui/Icons";
+// Import ikon profesional untuk kontak dan sosial media
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Camera,
+  MessageCircle,
+  Video,
+  Heart,
+} from "lucide-react";
 
-const FOOTER_SERVICES = ["Penitipan Harian", "Penitipan Mingguan", "Paket Premium", "Grooming", "Konsultasi"];
-const FOOTER_INFO = ["Tentang Kami", "Fasilitas", "Blog", "FAQ", "Syarat & Ketentuan"];
-const SOCIALS = ["Instagram", "WhatsApp", "TikTok"];
+
+const FOOTER_SERVICES = [
+  "Penitipan Harian",
+  "Penitipan Mingguan",
+  "Paket Premium",
+  "Grooming",
+  "Konsultasi",
+];
+
+const FOOTER_INFO = [
+  "Tentang Kami",
+  "Fasilitas",
+  "Blog",
+  "FAQ",
+  "Syarat & Ketentuan",
+];
+
+// Kita buat objek untuk social agar bisa memanggil ikon masing-masing
+const SOCIALS = [
+  { name: "Instagram", icon: Camera, href: "#" },
+  { name: "WhatsApp", icon: MessageCircle, href: "#" },
+  { name: "TikTok", icon: Video, href: "#" },
+];
 
 export function Footer() {
   return (
@@ -16,17 +46,32 @@ export function Footer() {
                 <PawIcon className="w-4 h-4 text-white" />
               </div>
               <span className="font-black text-lg text-white">
-                Kucing<span className="text-amber-500">Ku</span>
+                AnZ <span className="text-amber-500">Pet Care</span>
               </span>
             </div>
-            <p className="text-sm leading-relaxed mb-4 max-w-xs">
-              Penitipan kucing profesional dengan standar perawatan terbaik dan penuh kasih sayang.
+            <p className="text-sm leading-relaxed mb-6 max-w-xs">
+              Penitipan kucing profesional dengan standar perawatan terbaik dan
+              penuh kasih sayang di Kolaka.
             </p>
-            <address className="text-sm not-italic space-y-1">
-              <p>📍 Jl. Kucing Bahagia No. 12, Kota Anda</p>
-              <p>📞 0812-3456-7890</p>
-              <p>✉️ hello@kucingku.id</p>
-            </address>
+
+            {/* Kontak Tanpa Emoji */}
+            <div className="space-y-3 text-sm">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                <span>
+                  Jl. Mekongga Indah, Lamokato, Kec. Kolaka, Kabupaten Kolaka,
+                  Sulawesi Tenggara.
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-amber-500 shrink-0" />
+                <span>0821-4892-4390</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-amber-500 shrink-0" />
+                <span>AnZPetCare@kucingku.id</span>
+              </div>
+            </div>
           </div>
 
           {/* Services */}
@@ -35,7 +80,10 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               {FOOTER_SERVICES.map((item) => (
                 <li key={item}>
-                  <a href="#" className="hover:text-amber-400 transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-amber-400 transition-colors"
+                  >
                     {item}
                   </a>
                 </li>
@@ -49,7 +97,10 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               {FOOTER_INFO.map((item) => (
                 <li key={item}>
-                  <a href="#" className="hover:text-amber-400 transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-amber-400 transition-colors"
+                  >
                     {item}
                   </a>
                 </li>
@@ -60,11 +111,22 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-stone-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
-          <p>© 2024 KucingKu. All rights reserved. Made with 🐾 for cat lovers.</p>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-1">
+            <p>© 2026 AnZ Pet Care. All rights reserved. Made with</p>
+            <Heart className="w-3 h-3 text-amber-500 fill-amber-500" />
+            <p>for cat lovers.</p>
+          </div>
+
+          <div className="flex gap-5">
             {SOCIALS.map((social) => (
-              <a key={social} href="#" className="hover:text-amber-400 transition-colors">
-                {social}
+              <a
+                key={social.name}
+                href={social.href}
+                className="flex items-center gap-1.5 hover:text-amber-400 transition-colors"
+                aria-label={social.name}
+              >
+                <social.icon className="w-4 h-4" />
+                <span className="hidden sm:inline">{social.name}</span>
               </a>
             ))}
           </div>

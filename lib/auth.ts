@@ -1,12 +1,14 @@
-import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
-
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  providers: [Google],
-  session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/login",
-  },
-});
+export const getDashboardByRole = (role?: string | null) => {
+  switch (role) {
+    case "ADMIN":
+      return "/admin/dashboard";
+    case "COURIER":
+      return "/courier/dashboard";
+    case "CARETAKER":
+      return "/caretaker/dashboard";
+    case "CUSTOMER":
+      return "/dashboard";
+    default:
+      return "/dashboard";
+  }
+};

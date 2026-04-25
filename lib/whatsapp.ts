@@ -3,7 +3,7 @@ import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 export function buildWhatsAppUrl(form: BookingFormData): string {
   const message = [
-    "Halo KucingKu! Saya ingin memesan penitipan kucing 🐾",
+    "Halo AnZ Pet Care! Saya ingin memesan penitipan kucing 🐾",
     "",
     `Nama: ${form.nama}`,
     `Nama Kucing: ${form.kucing}`,

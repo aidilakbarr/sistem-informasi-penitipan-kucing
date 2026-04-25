@@ -5,7 +5,7 @@ import { FeaturesSection } from "@/components/Sections/FeaturesSection";
 import { ServicesSection } from "@/components/Sections/ServicesSection";
 import { TestimonialsSection } from "@/components/Sections/TestimonialsSection";
 import { FaqSection } from "@/components/Sections/FaqSection";
-import { BookingSection } from "@/components/Sections/BookingSection";
+import { CageAvailabilitySection } from "@/components/Sections/CageAvailabilitySection";
 
 export default function HomePage() {
   return (
@@ -15,9 +15,9 @@ export default function HomePage() {
         <HeroSection />
         <FeaturesSection />
         <ServicesSection />
+        <CageAvailabilitySection />
         <TestimonialsSection />
         <FaqSection />
-        <BookingSection />
       </main>
       <Footer />
     </>

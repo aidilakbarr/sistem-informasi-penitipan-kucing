@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DashboardLayout } from "@/components/dashboard/layout/DashboardLayout";
 import { CaretakerHealthPage } from "@/components/dashboard/caretaker/CaretakerHealthPage";
 
-export const metadata: Metadata = { title: "Catatan Kesehatan — KucingKu" };
+export const metadata: Metadata = { title: "Catatan Kesehatan — AnZ Pet Care" };
 
 export default function Page() {
   return (

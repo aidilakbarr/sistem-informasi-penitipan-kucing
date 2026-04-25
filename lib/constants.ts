@@ -1,4 +1,16 @@
-import type { Service, Testimonial, Feature, FaqItem, Stat, NavLink } from "@/types";
+import type { Testimonial, FaqItem, Stat, NavLink } from "@/types";
+
+import {
+  Wind,
+  ShieldCheck,
+  Camera,
+  HeartPulse,
+  Soup,
+  Sparkles,
+  Home,
+  Bath,
+  Bug,
+} from "lucide-react";
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Layanan", href: "#layanan" },
@@ -13,38 +25,96 @@ export const STATS: Stat[] = [
   { val: "3 Th", label: "Pengalaman" },
 ];
 
-export const SERVICES: Service[] = [
+export const PRICING = [
   {
-    emoji: "🏠",
     title: "Penitipan Harian",
-    desc: "Titipkan kucing kesayangan Anda per hari dengan fasilitas lengkap dan penuh kasih sayang.",
-    price: "Rp 75.000/hari",
-    features: ["Kandang nyaman & bersih", "Makan 2x sehari", "Bermain & bersosialisasi"],
+    price: "30.000",
+    unit: "/hari",
+    desc: "Fasilitas lengkap dengan laporan harian kondisi anabul.",
+    icon: Home,
+    features: [
+      "Ruangan Full AC",
+      "CCTV 24 Jam",
+      "Update Foto & Video",
+      "Pemeriksaan Kesehatan",
+    ],
+    highlight: false,
   },
   {
-    emoji: "🌙",
-    title: "Penitipan Mingguan",
-    desc: "Paket hemat untuk perjalanan lebih lama. Kucing Anda dirawat bak di rumah sendiri.",
-    price: "Rp 450.000/minggu",
-    features: ["Semua layanan harian", "Foto update harian", "Grooming ringan gratis"],
-    popular: true,
+    title: "Grooming Reguler",
+    price: "80.000",
+    unit: "/kucing",
+    desc: "Perawatan kebersihan standar agar kucing tetap wangi dan bersih.",
+    icon: Bath,
+    features: [
+      "Mandi Shampo Khusus",
+      "Potong Kuku",
+      "Pembersihan Telinga",
+      "Sisir Bulu",
+    ],
+    highlight: false,
   },
   {
-    emoji: "✨",
-    title: "Penitipan Premium",
-    desc: "Kamar VIP eksklusif dengan layanan spa, grooming, dan pemantauan 24 jam.",
-    price: "Rp 150.000/hari",
-    features: ["Kamar VIP ber-AC", "Live CCTV akses owner", "Full grooming & spa"],
+    title: "Grooming Spesial",
+    price: "100.000",
+    unit: "/kucing",
+    desc: "Solusi khusus untuk masalah kutu atau jamur pada anabul.",
+    icon: Bug,
+    features: [
+      "Treatment Kutu/Jamur",
+      "Shampo Medicated",
+      "Potong Kuku",
+      "Pembersihan Telinga",
+    ],
+    highlight: true, // Beri penanda untuk paket yang sering dicari
+  },
+  {
+    title: "Grooming Complete",
+    price: "125.000",
+    unit: "/kucing",
+    desc: "Perawatan total untuk masalah jamur sekaligus kutu.",
+    icon: Sparkles,
+    features: [
+      "Treatment Kutu & Jamur",
+      "Deep Cleaning",
+      "Extra Care",
+      "Free Konsultasi",
+    ],
+    highlight: false,
   },
 ];
 
-export const FEATURES: Feature[] = [
-  { icon: "🏥", title: "Berstandar Vet", desc: "Prosedur perawatan sesuai standar dokter hewan bersertifikat" },
-  { icon: "📹", title: "CCTV 24 Jam", desc: "Pantau kucing Anda kapan saja melalui aplikasi kami" },
-  { icon: "🛁", title: "Grooming Tersedia", desc: "Layanan mandi, potong kuku, dan perawatan bulu" },
-  { icon: "🍗", title: "Makanan Premium", desc: "Pakan berkualitas tinggi, atau bisa titip pakan favorit kucing" },
-  { icon: "💊", title: "Konsultasi Kesehatan", desc: "Konsultasi gratis dengan tenaga kesehatan hewan kami" },
-  { icon: "🤝", title: "Garansi Kepuasan", desc: "Tidak puas? Kami kembalikan pembayaran Anda penuh" },
+export const FEATURES = [
+  {
+    title: "Ruangan Ber-AC",
+    desc: "Suhu ruangan terjaga agar anabul tetap sejuk dan tidak stres.",
+    icon: Wind,
+  },
+  {
+    title: "Keamanan 24 Jam",
+    desc: "Dipantau staf berpengalaman untuk memastikan kucing tetap aman.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "CCTV Real-time",
+    desc: "Akses pantauan langsung melalui kamera untuk ketenangan Anda.",
+    icon: Camera,
+  },
+  {
+    title: "Pemeriksaan Kesehatan",
+    desc: "Pengecekan rutin kondisi fisik kucing setiap pagi dan sore.",
+    icon: HeartPulse,
+  },
+  {
+    title: "Nutrisi Terjamin",
+    desc: "Pemberian makanan berkualitas sesuai dengan jadwal rutin.",
+    icon: Soup,
+  },
+  {
+    title: "Kebersihan Terjaga",
+    desc: "Kandang dan area bermain dibersihkan menggunakan disinfektan aman.",
+    icon: Sparkles,
+  },
 ];
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -52,7 +122,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Rina Maulida",
     cat: "Pemilik Mochi & Donut",
     rating: 5,
-    text: "KucingKu selalu memberikan update foto setiap hari. Kucing saya diperlakukan seperti keluarga sendiri. Sangat recommended!",
+    text: "AnZ Pet Care selalu memberikan update foto setiap hari. Kucing saya diperlakukan seperti keluarga sendiri. Sangat recommended!",
     avatar: "RM",
   },
   {
