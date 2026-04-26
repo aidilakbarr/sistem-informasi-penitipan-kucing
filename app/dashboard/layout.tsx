@@ -1,22 +1,14 @@
-"use client";
-
-import { useAuthStore } from "@/store/auth";
-import { DashboardLayout } from "@/components/dashboard/layout/DashboardLayout";
+import AuthProvider from "@/components/auth/AuthProvider";
+import ClientLayout from "@/components/dashboard/layout/ClientLayout";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = useAuthStore();
-
   return (
-    <DashboardLayout
-      role={user?.role || "CUSTOMER"}
-      userName={user?.name || "User"}
-      unreadChat={2}
-    >
-      {children}
-    </DashboardLayout>
+    <AuthProvider>
+      <ClientLayout>{children}</ClientLayout>
+    </AuthProvider>
   );
 }

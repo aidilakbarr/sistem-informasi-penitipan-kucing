@@ -1,6 +1,4 @@
-import { getMe } from "@/services/api/auth.service";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
 type Role = "ADMIN" | "CUSTOMER" | "COURIER" | "CARETAKER" | null;
 
@@ -11,82 +9,67 @@ interface User {
 }
 
 interface AuthState {
-  accessToken: string | null;
   user: User | null;
+  accessToken: string | null;
+
   isAuthChecked: boolean;
 
   setAuth: (token: string, user: User) => void;
   logout: () => void;
 
+  hydrate: () => Promise<void>;
+
   isAuthenticated: () => boolean;
   getRole: () => Role;
-
-  setAuthChecked: (value: boolean) => void;
-  fetchMe: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set, get) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
+  user: null,
+  accessToken: null,
+  isAuthChecked: false,
+
+  setAuth: (token, user) =>
+    set({
+      accessToken: token,
+      user,
+      isAuthChecked: true,
+    }),
+
+  logout: () =>
+    set({
       accessToken: null,
       user: null,
-      isAuthChecked: false,
-
-      setAuth: (token, user) =>
-        set({
-          accessToken: token,
-          user,
-        }),
-
-      logout: () =>
-        set({
-          accessToken: null,
-          user: null,
-        }),
-
-      isAuthenticated: () => !!get().accessToken,
-      getRole: () => get().user?.role ?? null,
-
-      setAuthChecked: (value) =>
-        set({
-          isAuthChecked: value,
-        }),
-
-      fetchMe: async () => {
-        try {
-          const token = get().accessToken;
-
-          console.log("TOKEN:", token); // 🔍 debug
-
-          if (!token) {
-            set({ isAuthChecked: true });
-            return;
-          }
-
-          const user = await getMe(token);
-
-          console.log("USER:", user); // 🔍 debug
-
-          set({
-            user,
-            isAuthChecked: true,
-          });
-        } catch (error) {
-          console.error("fetchMe error:", error);
-
-          set({
-            user: null,
-            accessToken: null,
-            isAuthChecked: true,
-          });
-        }
-      },
+      isAuthChecked: true,
     }),
-    {
-      name: "auth-storage",
-      partialize: (state) => ({
-        accessToken: state.accessToken,
-      }),
-    },
-  ),
-);
+
+  isAuthenticated: () => !!get().user,
+
+  getRole: () => get().user?.role ?? null,
+
+  hydrate: async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        set({ user: null, accessToken: null, isAuthChecked: true });
+        return;
+      }
+
+      const data = await res.json();
+
+      const user = data.data || data.user || null;
+
+      set({
+        user,
+        accessToken: data.accessToken ?? null,
+        isAuthChecked: true,
+      });
+    } catch (err) {
+      console.log("HYDRATE ERROR:", err);
+
+      set({ user: null, accessToken: null, isAuthChecked: true });
+    }
+  },
+}));
