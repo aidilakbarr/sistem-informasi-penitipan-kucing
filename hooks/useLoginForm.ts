@@ -58,11 +58,11 @@ export function useLoginForm() {
         role: isValidRole(res.user.role) ? res.user.role : null,
       });
 
-      if (res.user.role === "admin") {
+      if (res.user.role === "ADMIN") {
         router.push("/dashboard/admin");
-      } else if (res.user.role === "courier") {
+      } else if (res.user.role === "COURIER") {
         router.push("/dashboard/courier");
-      } else if (res.user.role === "caretaker") {
+      } else if (res.user.role === "CARETAKER") {
         router.push("/dashboard/caretaker");
       } else {
         router.push("/dashboard/customer");
