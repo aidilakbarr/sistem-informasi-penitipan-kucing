@@ -13,7 +13,6 @@ export default function ClientLayout({
   if (!isAuthChecked) {
     return (
       <DashboardLayout role="CUSTOMER" userName="..." unreadChat={0}>
-        {/* Skeleton Keren Bertema Kucing */}
         <div className="p-6 animate-pulse">
           {/* Header Skeleton */}
           <div className="flex justify-between items-center mb-8">

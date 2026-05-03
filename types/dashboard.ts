@@ -46,14 +46,14 @@ export interface Cat {
   id: string;
   ownerId: string;
   name: string;
-  breed: string;
+  ras: string;
   age: number;
   weight: number;
   photo?: string;
-  diseaseHistory: string;
+  medicalHistory: string;
   vaccinationStatus: boolean;
-  vaccinationExpiry?: string;
-  notes?: string;
+  vaccineExpirationDate?: string;
+  specialNote?: string;
 }
 
 export interface Cage {

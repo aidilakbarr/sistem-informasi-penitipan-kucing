@@ -1,43 +1,67 @@
 import { useAuthStore } from "@/store/auth";
 
-export const apiFetch = async (url: string, options: RequestInit = {}) => {
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
   const { accessToken, setAuth, logout } = useAuthStore.getState();
 
-  let res = await fetch(url, {
+  const headers: HeadersInit = {
+    ...(options.headers || {}),
+    "Content-Type": "application/json",
+    ...(accessToken && {
+      Authorization: `Bearer ${accessToken}`,
+    }),
+  };
+
+  let res = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(accessToken && {
-        Authorization: `Bearer ${accessToken}`,
-      }),
-    },
+    headers,
     credentials: "include",
   });
 
   if (res.status === 401) {
-    const refreshRes = await fetch("/api/refresh", {
-      method: "POST",
-      credentials: "include",
-    });
+    try {
+      const refreshRes = await fetch(`${BASE_URL}/auth/refresh`, {
+        method: "POST",
+        credentials: "include",
+      });
 
-    if (!refreshRes.ok) {
+      if (!refreshRes.ok) {
+        logout();
+        throw new Error("Session expired");
+      }
+
+      const refreshData = await refreshRes.json();
+
+      const newAccessToken = refreshData.accessToken;
+
+      setAuth(newAccessToken, refreshData.user ?? null);
+
+      res = await fetch(`${BASE_URL}${endpoint}`, {
+        ...options,
+        headers: {
+          ...(options.headers || {}),
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${newAccessToken}`,
+        },
+        credentials: "include",
+      });
+    } catch (err) {
       logout();
-      return res;
+      throw err;
     }
-
-    const data = await refreshRes.json();
-
-    setAuth(data.access_token, data.user);
-
-    res = await fetch(url, {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${data.access_token}`,
-      },
-      credentials: "include",
-    });
   }
 
-  return res;
+  if (!res.ok) {
+    let message = "API Error";
+
+    try {
+      const err = await res.json();
+      message = err.message || message;
+    } catch {}
+
+    throw new Error(message);
+  }
+
+  return res.json();
 };

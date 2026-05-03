@@ -63,7 +63,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       set({
         user,
-        accessToken: data.accessToken ?? null,
+        accessToken: data.data.accessToken ?? null,
         isAuthChecked: true,
       });
     } catch (err) {
