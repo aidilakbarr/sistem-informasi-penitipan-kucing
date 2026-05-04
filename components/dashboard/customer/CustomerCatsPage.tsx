@@ -523,17 +523,25 @@ export function CustomerCatsPage() {
       }
 
       if (editTarget) {
-        await editCat(editTarget.id, formData);
-        showToast(`Data ${form.name} berhasil diperbarui!`);
+        const res = await editCat(editTarget.id, formData);
+        if (res?.success !== false) {
+          showToast(`Data ${form.name} berhasil diperbarui!`);
+        } else {
+          showToast(res?.err.message, "error");
+        }
       } else {
-        await addCat(formData);
-        showToast(`${form.name} berhasil ditambahkan!`);
+        const res = await addCat(formData);
+        if (res?.success !== false) {
+          showToast(`${form.name} berhasil ditambahkan!`);
+        } else {
+          showToast(res?.err.message, "error");
+        }
       }
 
       setShowForm(false);
       setEditTarget(null);
     } catch (err) {
-      console.error(err);
+      console.log(err);
       showToast("Terjadi kesalahan, coba lagi.", "error");
     } finally {
       setSubmitting(false);

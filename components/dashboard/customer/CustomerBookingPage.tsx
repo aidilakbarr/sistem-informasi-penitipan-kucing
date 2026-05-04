@@ -12,6 +12,7 @@ import { useCats } from "@/hooks/useCat";
 import { Cat } from "@/types/cat";
 import { Loader2, Cat as CatIcon } from "lucide-react";
 import { createBooking } from "@/services/api/booking.services";
+import { useRouter } from "next/navigation";
 
 const PRICE_PER_DAY = 25_000;
 
@@ -60,6 +61,8 @@ export function CustomerBookingPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [lastTotal, setLastTotal] = useState(0);
+
+  const router = useRouter();
 
   const days = daysBetween(form.checkIn, form.checkOut);
   const basePrice = days > 0 ? Math.max(1, days) * PRICE_PER_DAY : 0;
@@ -121,7 +124,14 @@ export function CustomerBookingPage() {
           >
             Pesan Lagi
           </Btn>
-          <Btn variant="secondary">Lihat Booking</Btn>
+          <Btn
+            variant="secondary"
+            onClick={() => {
+              router.push("/dashboard/customer/bookings");
+            }}
+          >
+            Lihat Booking
+          </Btn>
         </div>
       </div>
     );

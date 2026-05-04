@@ -36,7 +36,7 @@ export function useCats() {
       setCats((prev) => [...prev, newCat]);
     } catch (err) {
       console.error(err);
-      alert("Gagal tambah data");
+      return { success: false, err };
     }
   }
 
@@ -47,7 +47,7 @@ export function useCats() {
       setCats((prev) => prev.map((c) => (c.id === id ? updated : c)));
     } catch (err) {
       console.error(err);
-      alert("Gagal update data");
+      return { success: false, err };
     }
   }
 

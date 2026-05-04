@@ -63,6 +63,23 @@ export interface Booking {
   updatedAt: string;
 }
 
+export interface DailyLog {
+  id: string;
+  date: string;
+  condition: string;
+  activity: "AKTIF" | "NORMAL" | "LEMAS";
+  isEating: boolean;
+  isDrinking: boolean;
+  isDefecating: boolean;
+  isUrinating: boolean;
+  temperature: number | null;
+  isEmergency: boolean;
+  note: string | null;
+  photos: string[];
+  bookingId: string;
+  createdAt: string;
+}
+
 export async function createBooking(
   payload: CreateBookingPayload,
 ): Promise<Booking> {
@@ -106,5 +123,48 @@ export async function checkInBooking(id: string): Promise<Booking> {
 
 export async function checkOutBooking(id: string): Promise<Booking> {
   const res = await apiFetch(`/bookings/${id}/check-out`, { method: "PUT" });
+  return res.data;
+}
+
+// Caretaker: semua booking IN_CARE
+export async function getInCareBookings(): Promise<Booking[]> {
+  const res = await apiFetch("/bookings/in-care");
+  return res.data;
+}
+
+// Daily logs per booking
+export async function getDailyLogs(bookingId: string): Promise<DailyLog[]> {
+  const res = await apiFetch(`/bookings/${bookingId}/daily-logs`);
+  return res.data;
+}
+
+// Submit daily log dengan foto
+export async function submitDailyLog(
+  bookingId: string,
+  payload: {
+    condition: string;
+    activity: string;
+    isEating: boolean;
+    isDrinking: boolean;
+    isDefecating: boolean;
+    isUrinating: boolean;
+    temperature?: number;
+    isEmergency: boolean;
+    note?: string;
+  },
+  photos: File[],
+): Promise<DailyLog> {
+  const formData = new FormData();
+
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value !== undefined) formData.append(key, String(value));
+  });
+
+  photos.forEach((file) => formData.append("photos", file));
+
+  const res = await apiFetch(`/bookings/${bookingId}/daily-update`, {
+    method: "POST",
+    body: formData,
+  });
   return res.data;
 }
